@@ -1,5 +1,5 @@
 CREATE TABLE `scheduled_job` (                                     
-                 `scheduled_job_id` tinyint(3) unsigned NOT NULL AUTO_INCREMENT,  
+                 `scheduled_job_id` int(11) unsigned NOT NULL AUTO_INCREMENT,  
                  `name` varchar(100) NOT NULL,                                    
                  `crontab` varchar(200) DEFAULT NULL,                             
                  `last_run_date` datetime DEFAULT NULL,                           
@@ -12,7 +12,7 @@ CREATE TABLE `scheduled_job` (
 
                
                CREATE TABLE `scheduled_job_action` (                                     
-                        `scheduled_job_action_id` tinyint(3) unsigned NOT NULL AUTO_INCREMENT,  
+                        `scheduled_job_action_id` int(11) unsigned NOT NULL AUTO_INCREMENT,  
                         `type_id` int(11) NOT NULL,                                             
                         `scheduled_job_id` int(11) NOT NULL,                                    
                         `params` varchar(200) NOT NULL,                                         
