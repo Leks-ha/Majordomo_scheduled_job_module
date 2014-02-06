@@ -237,7 +237,8 @@ function usual(&$out) {
 
 protected function updateNewTasks()
 {
-    $jobs=SQLSelect("SELECT scheduled_job_id, crontab, is_periodical FROM scheduled_job WHERE is_active = 1 and next_run_date is null");
+    $jobs=SQLSelect("SELECT scheduled_job_id, crontab, is_periodical FROM scheduled_job WHERE is_active = 1 
+	and (next_run_date is null or next_run_date = '0000-00-00 00:00:00')");
 
     foreach ($jobs as $job)
     {
@@ -263,7 +264,7 @@ protected function setNextRunTime($job)
 
 protected function executeTasks()
 {
-    $jobs=SQLSelect("SELECT * FROM scheduled_job WHERE next_run_date <= now() and is_active = 1");
+    $jobs=SQLSelect("SELECT * FROM scheduled_job WHERE next_run_date <= now() and is_active = 1 and next_run_date <> '0000-00-00 00:00:00'");
 
     foreach ($jobs as $job)
     {

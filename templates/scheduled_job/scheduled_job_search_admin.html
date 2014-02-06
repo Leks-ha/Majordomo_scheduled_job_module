@@ -24,7 +24,7 @@
 
 <!-- search results (list) -->
 <form action="?" method="post" name="frmList_device" style="padding:0px">
-<h3><#LANG_DEVICES#></h3>
+<h3>Запланированные задания</h3>
 <table class="table table-bordered table-rounded">
 [#begin RESULT#]
 <tr>
@@ -80,6 +80,6 @@
 
 
 [#else RESULT#]
-<div class="alert alert-error"><#LANG_NO_DEVICES_FOUND#></div>
+<div class="alert alert-error">Нет заданий</div>
 [#endif RESULT#]
 <!-- / results -->
