@@ -1,10 +1,5 @@
 <?php
-/*
-* @version 0.2 (wizard)
-*/
 
-//var_dump($this->mode);die('asd');
-//var_dump($rec);die();
 
   if ($this->mode=='setvalue') {
    global $prop_id;

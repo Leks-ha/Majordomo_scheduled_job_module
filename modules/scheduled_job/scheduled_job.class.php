@@ -1,13 +1,4 @@
 <?php
-/**
-* device 
-*
-* device
-*
-* @package MajorDoMo
-* @author Serge Dzheigalo <jey@tut.by> http://smartliving.ru/
-* @version 0.1
-*/
 
 require_once dirname(__FILE__) . "/crontab.php";
 require_once dirname(__FILE__) . "/Actions/ScheduledJobActionAbstract.php";
