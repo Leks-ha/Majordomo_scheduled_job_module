@@ -244,7 +244,7 @@ protected function setNextRunTime($job)
       {
         $nextRun = Crontab::parse($crontabStr);
         $job['next_run_date'] = date("Y-m-d H:i:s", $nextRun);
-        var_dump($job['next_run_date']);
+        //var_dump($job['next_run_date']);
       }
       catch(Exception $e)
       {
