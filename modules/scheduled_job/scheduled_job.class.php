@@ -274,6 +274,7 @@ protected function executeTasks()
           $job['is_active'] = 0;
           $job['status'] = -1;
           SQLUpdate('scheduled_job', $job, 'scheduled_job_id');
+          $this->sendNoticeToAdmin("Scheduled Job ERROR!!!|Name - {$job['name']}|ID - {$job['scheduled_job_id']}");
       }
       else
       {
@@ -339,6 +340,11 @@ public function deleteJob($id)
   SQLExec("DELETE FROM scheduled_job WHERE scheduled_job_id='".$id."'");
 }
 
+protected function sendNoticeToAdmin($msg)
+{
+    SendMail("errors@".PROJECT_DOMAIN, PROJECT_BUGTRACK, "Scheduled Job ERROR", $msg);
+}
+
 /**
 * Title
 *
@@ -360,8 +366,8 @@ public function deleteJob($id)
 * @access public
 */
  function uninstall() {
-  SQLExec('DROP TABLE IF EXISTS scheduled_job');
   SQLExec('DROP TABLE IF EXISTS scheduled_job_action');
+  SQLExec('DROP TABLE IF EXISTS scheduled_job');
   parent::uninstall();
  }
 /**
