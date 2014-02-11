@@ -379,9 +379,9 @@ protected function sendNoticeToAdmin($msg)
 */
  function dbInstall()
  {
-    SQLExec('DROP TABLE IF EXISTS scheduled_job_action');
-    SQLExec('DROP TABLE IF EXISTS scheduled_job');
-
+    $isTableScheduledJobExists = (SQLSelectOne("SHOW TABLES LIKE 'scheduled_job'") == false) ? false : true;
+    $isTableScheduledJobActionExists = (SQLSelectOne("SHOW TABLES LIKE 'scheduled_job_action'") == false) ? false : true;
+ 
     $sql1 = "CREATE TABLE `scheduled_job` (                                     
         `scheduled_job_id` int(11) unsigned NOT NULL AUTO_INCREMENT,  
         `name` varchar(100) NOT NULL,                                    
@@ -394,7 +394,7 @@ protected function sendNoticeToAdmin($msg)
         PRIMARY KEY (`scheduled_job_id`)                                 
         ) ENGINE=InnoDb AUTO_INCREMENT=11 DEFAULT CHARSET=utf8";            
 
-           
+               
     $sql2 = "CREATE TABLE `scheduled_job_action` (                                     
         `scheduled_job_action_id` int(11) unsigned NOT NULL AUTO_INCREMENT,  
         `type_id` int(11) NOT NULL,                                             
@@ -404,12 +404,12 @@ protected function sendNoticeToAdmin($msg)
         FOREIGN KEY scheduled_job_id_fk (scheduled_job_id)
         REFERENCES scheduled_job (scheduled_job_id)
         ON UPDATE CASCADE ON DELETE RESTRICT
-        ) ENGINE=InnoDb AUTO_INCREMENT=20 DEFAULT CHARSET=utf8;";
-
-    SQLExec($sql1);
-    SQLExec($sql2);
-
-    parent::dbInstall('');
+    ) ENGINE=InnoDb AUTO_INCREMENT=20 DEFAULT CHARSET=utf8;";
+  
+    if (!$isTableScheduledJobExists) SQLExec($sql1);
+    if (!$isTableScheduledJobActionExists) SQLExec($sql2);
+    
+  parent::dbInstall('');
  }
 // --------------------------------------------------------------------
 }
