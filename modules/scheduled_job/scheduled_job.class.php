@@ -377,25 +377,39 @@ protected function sendNoticeToAdmin($msg)
 *
 * @access private
 */
- function dbInstall() {
+ function dbInstall()
+ {
+    SQLExec('DROP TABLE IF EXISTS scheduled_job_action');
+    SQLExec('DROP TABLE IF EXISTS scheduled_job');
 
-  $data = <<<EOD
- scheduled_job: scheduled_job_id int(10) unsigned NOT NULL auto_increment
- scheduled_job: name varchar(255) NOT NULL DEFAULT ''
- scheduled_job: crontab varchar(200) DEFAULT NULL,  
- scheduled_job: last_run_date datetime DEFAULT NULL,                          
- scheduled_job: next_run_date datetime DEFAULT NULL,                          
- scheduled_job: status int(11) NOT NULL DEFAULT '0',                          
- scheduled_job: is_active tinyint(1) NOT NULL DEFAULT '0',                    
- scheduled_job: is_periodical tinyint(1) NOT NULL DEFAULT '0',
+    $sql1 = "CREATE TABLE `scheduled_job` (                                     
+        `scheduled_job_id` int(11) unsigned NOT NULL AUTO_INCREMENT,  
+        `name` varchar(100) NOT NULL,                                    
+        `crontab` varchar(200) DEFAULT NULL,                             
+        `last_run_date` datetime DEFAULT NULL,                           
+        `next_run_date` datetime DEFAULT NULL,                           
+        `status` int(11) NOT NULL DEFAULT '0',                           
+        `is_active` tinyint(1) NOT NULL DEFAULT '0',                     
+        `is_periodical` tinyint(1) NOT NULL DEFAULT '0',                 
+        PRIMARY KEY (`scheduled_job_id`)                                 
+        ) ENGINE=InnoDb AUTO_INCREMENT=11 DEFAULT CHARSET=utf8";            
 
- scheduled_job_action: scheduled_job_action_id int(10) unsigned NOT NULL AUTO_INCREMENT,  
- scheduled_job_action: type_id` int(11) NOT NULL,                                            
- scheduled_job_action: scheduled_job_id int(11) NOT NULL,                                    
- scheduled_job_action: params` varchar(200) NOT NULL
- 
-EOD;
-  parent::dbInstall($data);
+           
+    $sql2 = "CREATE TABLE `scheduled_job_action` (                                     
+        `scheduled_job_action_id` int(11) unsigned NOT NULL AUTO_INCREMENT,  
+        `type_id` int(11) NOT NULL,                                             
+        `scheduled_job_id` int(11) unsigned NOT NULL,                                    
+        `params` varchar(200) NOT NULL,                                         
+        PRIMARY KEY (`scheduled_job_action_id`),
+        FOREIGN KEY scheduled_job_id_fk (scheduled_job_id)
+        REFERENCES scheduled_job (scheduled_job_id)
+        ON UPDATE CASCADE ON DELETE RESTRICT
+        ) ENGINE=InnoDb AUTO_INCREMENT=20 DEFAULT CHARSET=utf8;";
+
+    SQLExec($sql1);
+    SQLExec($sql2);
+
+    parent::dbInstall('');
  }
 // --------------------------------------------------------------------
 }
